@@ -53,8 +53,7 @@ RUN wget -q -P /tmp \
 
 # Install conda packages.
 ENV PATH="/opt/conda/bin:$PATH"
-RUN conda install -qy conda==4.13.0 \
-    && conda install -y -c conda-forge \
+RUN conda install -y -c conda-forge \
       openmm=7.7.0 \
       cudatoolkit==${CUDA_VERSION} \
       pdbfixer \

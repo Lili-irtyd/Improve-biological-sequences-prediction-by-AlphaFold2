@@ -9,8 +9,8 @@ def argparse():
     parser = argparse.ArgumentParser(
         description='extract representations from alphafold output'
     )
-    parser.add_argument('--data-dir', default='output', type=str, help='path to alphafold data')
-    parser.add_argument('--out-dir', default='../data/representations', type=str, help='output path')
+    parser.add_argument('--data-dir', default='/home/gpux1/ccd/npy_for_spare', type=str, help='path to alphafold data')
+    parser.add_argument('--out-dir', default='/home/gpux1/ccd/spare_representations', type=str, help='output path')
     
     args = parser.parse_args()
 

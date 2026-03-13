@@ -22,7 +22,7 @@ import random
 import shutil
 import sys
 import time
-from typing import Any, Dict, Union
+from typing import Any, Dict, Union, Optional
 
 from absl import app
 from absl import flags
@@ -38,7 +38,10 @@ from alphafold.data.tools import hmmsearch
 from alphafold.model import config
 from alphafold.model import data
 from alphafold.model import model
-from alphafold.relax import relax
+# =================================================================
+# === 关键修改 (1): 删除了这里的 'from alphafold.relax import relax' ===
+# 我们将它移动到了 main 函数内部的条件判断语句中。
+# =================================================================
 import jax.numpy as jnp
 import numpy as np
 
@@ -128,6 +131,7 @@ flags.DEFINE_boolean('use_precomputed_msas', False, 'Whether to read MSAs that '
                      'directory, so it must stay the same between multiple '
                      'runs that are to reuse the MSAs. WARNING: This will not '
                      'check if the sequence, database or configuration have '
+
                      'changed.')
 flags.DEFINE_enum_class('models_to_relax', ModelsToRelax.BEST, ModelsToRelax,
                         'The models to run the final relaxation step on. '
@@ -235,7 +239,7 @@ def predict_structure(
     output_dir_base: str,
     data_pipeline: Union[pipeline.DataPipeline, pipeline_multimer.DataPipeline],
     model_runners: Dict[str, model.RunModel],
-    amber_relaxer: relax.AmberRelaxation,
+    amber_relaxer: Optional[Any], # 允许 amber_relaxer 为 None
     benchmark: bool,
     random_seed: int,
     models_to_relax: ModelsToRelax,
@@ -289,27 +293,27 @@ def predict_structure(
         'Total JAX model %s on %s predict time (includes compilation time, see --benchmark): %.1fs',
         model_name, fasta_name, t_diff)
 
-    # if benchmark:
-    #   t_0 = time.time()
-    #   model_runner.predict(processed_feature_dict,
-    #                        random_seed=model_random_seed)
-    #   t_diff = time.time() - t_0
-    #   timings[f'predict_benchmark_{model_name}'] = t_diff
-    #   logging.info(
-    #       'Total JAX model %s on %s predict time (excludes compilation time): %.1fs',
-    #       model_name, fasta_name, t_diff)
+    if benchmark:
+      t_0 = time.time()
+      model_runner.predict(processed_feature_dict,
+                           random_seed=model_random_seed)
+      t_diff = time.time() - t_0
+      timings[f'predict_benchmark_{model_name}'] = t_diff
+      logging.info(
+          'Total JAX model %s on %s predict time (excludes compilation time): %.1fs',
+          model_name, fasta_name, t_diff)
 
-    # plddt = prediction_result['plddt']
-    # _save_confidence_json_file(plddt, output_dir, model_name)
-    # ranking_confidences[model_name] = prediction_result['ranking_confidence']
+    plddt = prediction_result['plddt']
+    _save_confidence_json_file(plddt, output_dir, model_name)
+    ranking_confidences[model_name] = prediction_result['ranking_confidence']
 
-    # if (
-    #     'predicted_aligned_error' in prediction_result
-    #     and 'max_predicted_aligned_error' in prediction_result
-    # ):
-    #   pae = prediction_result['predicted_aligned_error']
-    #   max_pae = prediction_result['max_predicted_aligned_error']
-    #   _save_pae_json_file(pae, float(max_pae), output_dir, model_name)
+    if (
+        'predicted_aligned_error' in prediction_result
+        and 'max_predicted_aligned_error' in prediction_result
+    ):
+      pae = prediction_result['predicted_aligned_error']
+      max_pae = prediction_result['max_predicted_aligned_error']
+      _save_pae_json_file(pae, float(max_pae), output_dir, model_name)
 
     # Remove jax dependency from results.
     np_prediction_result = _jnp_to_np(dict(prediction_result))
@@ -318,8 +322,6 @@ def predict_structure(
     result_output_path = os.path.join(output_dir, f'result_{model_name}.pkl')
     with open(result_output_path, 'wb') as f:
       pickle.dump(np_prediction_result, f, protocol=4)
-    
-    continue
 
     # Add the predicted LDDT in the b-factor column.
     # Note that higher predicted LDDT value means higher model confidence.
@@ -344,50 +346,51 @@ def predict_structure(
         file_id=str(model_index),
         model_type=model_type,
     )
-  
-  return
 
   # Rank by model confidence.
   ranked_order = [
       model_name for model_name, confidence in
       sorted(ranking_confidences.items(), key=lambda x: x[1], reverse=True)]
 
-  # Relax predictions.
-  if models_to_relax == ModelsToRelax.BEST:
-    to_relax = [ranked_order[0]]
-  elif models_to_relax == ModelsToRelax.ALL:
-    to_relax = ranked_order
-  elif models_to_relax == ModelsToRelax.NONE:
-    to_relax = []
+  # Relax predictions ONLY if models_to_relax is not NONE and amber_relaxer exists.
+  if models_to_relax != ModelsToRelax.NONE and amber_relaxer:
+    logging.info('Relaxing predictions...')
+    if models_to_relax == ModelsToRelax.BEST:
+      to_relax = [ranked_order[0]]
+    elif models_to_relax == ModelsToRelax.ALL:
+      to_relax = ranked_order
 
-  for model_name in to_relax:
-    t_0 = time.time()
-    relaxed_pdb_str, _, violations = amber_relaxer.process(
-        prot=unrelaxed_proteins[model_name])
-    relax_metrics[model_name] = {
-        'remaining_violations': violations,
-        'remaining_violations_count': sum(violations)
-    }
-    timings[f'relax_{model_name}'] = time.time() - t_0
+    for model_name in to_relax:
+      t_0 = time.time()
+      try:
+        relaxed_pdb_str, _, violations = amber_relaxer.process(
+            prot=unrelaxed_proteins[model_name])
+        relax_metrics[model_name] = {
+            'remaining_violations': violations,
+            'remaining_violations_count': sum(violations)
+        }
+        timings[f'relax_{model_name}'] = time.time() - t_0
+        relaxed_pdbs[model_name] = relaxed_pdb_str
 
-    relaxed_pdbs[model_name] = relaxed_pdb_str
+        # Save the relaxed PDB.
+        relaxed_output_path = os.path.join(
+            output_dir, f'relaxed_{model_name}.pdb')
+        with open(relaxed_output_path, 'w') as f:
+          f.write(relaxed_pdb_str)
 
-    # Save the relaxed PDB.
-    relaxed_output_path = os.path.join(
-        output_dir, f'relaxed_{model_name}.pdb')
-    with open(relaxed_output_path, 'w') as f:
-      f.write(relaxed_pdb_str)
+        relaxed_protein = protein.from_pdb_string(relaxed_pdb_str)
+        _save_mmcif_file(
+            prot=relaxed_protein,
+            output_dir=output_dir,
+            model_name=f'relaxed_{model_name}',
+            file_id='0',
+            model_type=model_type,
+        )
+      except Exception as e:
+        logging.warning(f'Relaxation for {model_name} failed: {e}. '
+                        'Saving unrelaxed structure.')
 
-    relaxed_protein = protein.from_pdb_string(relaxed_pdb_str)
-    _save_mmcif_file(
-        prot=relaxed_protein,
-        output_dir=output_dir,
-        model_name=f'relaxed_{model_name}',
-        file_id='0',
-        model_type=model_type,
-    )
-
-  # Write out relaxed PDBs in rank order.
+  # Write out final PDBs in rank order.
   for idx, model_name in enumerate(ranked_order):
     ranked_output_path = os.path.join(output_dir, f'ranked_{idx}.pdb')
     with open(ranked_output_path, 'w') as f:
@@ -528,13 +531,21 @@ def main(argv):
   logging.info('Have %d models: %s', len(model_runners),
                list(model_runners.keys()))
 
-  amber_relaxer = relax.AmberRelaxation(
-      max_iterations=RELAX_MAX_ITERATIONS,
-      tolerance=RELAX_ENERGY_TOLERANCE,
-      stiffness=RELAX_STIFFNESS,
-      exclude_residues=RELAX_EXCLUDE_RESIDUES,
-      max_outer_iterations=RELAX_MAX_OUTER_ITERATIONS,
-      use_gpu=FLAGS.use_gpu_relax)
+  # =====================================================================================
+  # === 关键修改 (2): 将 amber_relaxer 的创建移入条件判断语句中 ===
+  # 只有在需要松弛时，才导入 relax 模块并创建对象。
+  # =====================================================================================
+  amber_relaxer = None
+  if FLAGS.models_to_relax != ModelsToRelax.NONE:
+    # 仅在此处导入 relax 模块
+    from alphafold.relax import relax
+    amber_relaxer = relax.AmberRelaxation(
+        max_iterations=RELAX_MAX_ITERATIONS,
+        tolerance=RELAX_ENERGY_TOLERANCE,
+        stiffness=RELAX_STIFFNESS,
+        exclude_residues=RELAX_EXCLUDE_RESIDUES,
+        max_outer_iterations=RELAX_MAX_OUTER_ITERATIONS,
+        use_gpu=FLAGS.use_gpu_relax)
 
   random_seed = FLAGS.random_seed
   if random_seed is None:
@@ -568,7 +579,7 @@ if __name__ == '__main__':
       'template_mmcif_dir',
       'max_template_date',
       'obsolete_pdbs_path',
-      'use_gpu_relax',
+      # 'use_gpu_relax' # 我们可以将此项注释掉，因为当不进行松弛时，它不是必需的
   ])
 
   app.run(main)
