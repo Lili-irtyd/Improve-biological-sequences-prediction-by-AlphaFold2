@@ -1,0 +1,16 @@
+Warning: no access to tty (Inappropriate ioctl for device).
+Thus no job control in this shell.
+正在加载 AlphaFold 模块...
+bash: conda: command not found
+bash: conda: command not found
+正在定义数据库路径...
+设置 PYTHONPATH...
+开始批量处理 FASTA 文件...
+----------------------------------------------------
+正在处理: rcsb_pdb_3QOK (输出至: /user1/scl1/zhiqian/alphafold/output/rcsb_pdb_3QOK)
+----------------------------------------------------
+Traceback (most recent call last):
+  File "/user1/scl1/zhiqian/alphafold/run_alphafold.py", line 27, in <module>
+    from absl import app
+ModuleNotFoundError: No module named 'absl'
+所有任务已提交或完成。

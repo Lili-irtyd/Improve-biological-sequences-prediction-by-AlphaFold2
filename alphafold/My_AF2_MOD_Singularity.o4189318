@@ -1,0 +1,16 @@
+Warning: no access to tty (Inappropriate ioctl for device).
+Thus no job control in this shell.
+正在加载 AlphaFold 模块 (为 Singularity 做准备)...
+正在定义文件和目录路径...
+正在定义数据库路径...
+开始批量处理 FASTA 文件 (使用 Singularity)...
+----------------------------------------------------
+正在处理: rcsb_pdb_3QOK (使用 Singularity)
+FASTA 输入 (主机): /user1/scl1/zhiqian/alphafold/input_fastas/rcsb_pdb_3QOK.fasta
+输出目录 (主机): /user1/scl1/zhiqian/alphafold/results/rcsb_pdb_3QOK
+----------------------------------------------------
+Traceback (most recent call last):
+  File "/project/run_alphafold.py", line 237, in <module>
+    amber_relaxer: relax.AmberRelaxation,
+NameError: name 'relax' is not defined
+所有任务已提交或完成。

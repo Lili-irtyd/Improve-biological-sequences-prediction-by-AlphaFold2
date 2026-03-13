@@ -1,0 +1,73 @@
+Warning: no access to tty (Inappropriate ioctl for device).
+Thus no job control in this shell.
+正在加载 AlphaFold 模块 (为 Singularity 做准备)...
+正在定义文件和目录路径...
+正在定义数据库路径...
+开始批量处理 FASTA 文件 (使用 Singularity)...
+----------------------------------------------------
+正在处理: rcsb_pdb_3QOK (使用 Singularity)
+FASTA 输入 (主机): /user1/scl1/zhiqian/alphafold/input_fastas/rcsb_pdb_3QOK.fasta
+输出目录 (主机): /user1/scl1/zhiqian/alphafold/results/rcsb_pdb_3QOK
+----------------------------------------------------
+I1021 16:29:39.352398 23183499835200 templates.py:857] Using precomputed obsolete pdbs /database/pdb_mmcif/obsolete.dat.
+I1021 16:29:40.117801 23183499835200 xla_bridge.py:353] Unable to initialize backend 'tpu_driver': NOT_FOUND: Unable to find driver in registry given worker: 
+I1021 16:29:40.405509 23183499835200 xla_bridge.py:353] Unable to initialize backend 'rocm': NOT_FOUND: Could not find registered platform with name: "rocm". Available platform names are: Interpreter Host CUDA
+I1021 16:29:40.405883 23183499835200 xla_bridge.py:353] Unable to initialize backend 'tpu': module 'jaxlib.xla_extension' has no attribute 'get_tpu_client'
+I1021 16:29:40.405946 23183499835200 xla_bridge.py:353] Unable to initialize backend 'plugin': xla_extension has no attributes named get_plugin_device_client. Compile TensorFlow with //tensorflow/compiler/xla/python:enable_plugin_device set to true (defaults to false) to enable this.
+I1021 16:29:40.993845 23183499835200 run_alphafold.py:531] Have 1 models: ['model_1_pred_0']
+I1021 16:29:40.994035 23183499835200 run_alphafold.py:553] Using random seed 3092324863760294086 for the data pipeline
+I1021 16:29:40.994175 23183499835200 run_alphafold.py:249] Predicting rcsb_pdb_3QOK
+I1021 16:29:41.002120 23183499835200 jackhmmer.py:133] Launching subprocess "/usr/bin/jackhmmer -o /dev/null -A /scratch/pbs_tmpdir/pbs.4189386.fe3-adm/tmp_fyjgtfg/output.sto --noali --F1 0.0005 --F2 5e-05 --F3 5e-07 --incE 0.0001 -E 0.0001 --cpu 8 -N 1 /input/rcsb_pdb_3QOK.fasta /database/uniref90/uniref90.fasta"
+I1021 16:29:41.017026 23183499835200 utils.py:36] Started Jackhmmer (uniref90.fasta) query
+I1021 16:46:15.722101 23183499835200 utils.py:40] Finished Jackhmmer (uniref90.fasta) query in 994.705 seconds
+I1021 16:46:16.344242 23183499835200 jackhmmer.py:133] Launching subprocess "/usr/bin/jackhmmer -o /dev/null -A /scratch/pbs_tmpdir/pbs.4189386.fe3-adm/tmp9k8qgflt/output.sto --noali --F1 0.0005 --F2 5e-05 --F3 5e-07 --incE 0.0001 -E 0.0001 --cpu 8 -N 1 /input/rcsb_pdb_3QOK.fasta /database/mgnify/mgy_clusters.fa"
+I1021 16:46:16.357589 23183499835200 utils.py:36] Started Jackhmmer (mgy_clusters.fa) query
+I1021 17:33:07.875797 23183499835200 utils.py:40] Finished Jackhmmer (mgy_clusters.fa) query in 2811.518 seconds
+I1021 17:33:11.052057 23183499835200 hhsearch.py:85] Launching subprocess "/usr/bin/hhsearch -i /scratch/pbs_tmpdir/pbs.4189386.fe3-adm/tmpvcwmb2c2/query.a3m -o /scratch/pbs_tmpdir/pbs.4189386.fe3-adm/tmpvcwmb2c2/output.hhr -maxseq 1000000 -d /database/pdb70/pdb70"
+I1021 17:33:11.072027 23183499835200 utils.py:36] Started HHsearch query
+I1021 17:33:58.063995 23183499835200 utils.py:40] Finished HHsearch query in 46.992 seconds
+I1021 17:33:59.634819 23183499835200 hhblits.py:128] Launching subprocess "/usr/bin/hhblits -i /input/rcsb_pdb_3QOK.fasta -cpu 4 -oa3m /scratch/pbs_tmpdir/pbs.4189386.fe3-adm/tmpr2odzllv/output.a3m -o /dev/null -n 3 -e 0.001 -maxseq 1000000 -realign_max 100000 -maxfilt 100000 -min_prefilter_hits 1000 -d /database/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt -d /database/uniref30/UniRef30_2021_03"
+I1021 17:33:59.654558 23183499835200 utils.py:36] Started HHblits query
+I1021 17:51:50.011741 23183499835200 utils.py:40] Finished HHblits query in 1070.357 seconds
+I1021 17:51:50.112129 23183499835200 templates.py:878] Searching for template for: SNAMKRLPLLAALPLLCASALSAQPLMSVGYFNGGGDVTAGPGGDIDKLDVRQITHLNYSFGLIYNDEKDETNAALKDPAHLHEIWLSPKVQADLQKLPALRKQNPDLKVLLSVGGWGARGFSGAAATAESRAVFIRSAQKIIQQYGLDGIDLDWEFPVNGAWGLVASQPADRDNFTALLKSLREAVGEQKLVTIAVGANAESPKSWVDVKAVAPVLNYINLMTYDMAYGTQYFNSNLYDSSHWPTVAAADKYSADFVVNNYLAAGLKPSQMNLGIGFYGRVPKRAVEPGIDWTKADAQNNPVTQPYFGPQQIALFASLGYDLSKDTYVKYNDIVGKLLNDPQKRFTEHWDDEAKVPWLSVQSAEGKPLFALSYENPRSVAIKADYIKAKGLAGAMFWEYGADDQNQLARQLAESLGIKH
+I1021 17:51:50.253697 23183499835200 templates.py:286] Found a fuzzy sequence-only match 4q22_A.
+I1021 17:51:50.485568 23183499835200 templates.py:286] Found a fuzzy sequence-only match 4lgx_A.
+I1021 17:51:50.714099 23183499835200 templates.py:267] Found an exact template match 6f8n_B.
+I1021 17:51:51.434348 23183499835200 templates.py:267] Found an exact template match 4a5q_D.
+I1021 17:51:51.961265 23183499835200 templates.py:267] Found an exact template match 5gzu_A.
+I1021 17:51:52.462845 23183499835200 templates.py:267] Found an exact template match 4dws_D.
+I1021 17:51:52.869549 23183499835200 templates.py:267] Found an exact template match 3oa5_B.
+I1021 17:51:53.155184 23183499835200 templates.py:267] Found an exact template match 5gzt_B.
+I1021 17:51:55.972810 23183499835200 templates.py:267] Found an exact template match 6ogd_F.
+I1021 17:51:56.090163 23183499835200 templates.py:267] Found an exact template match 6jm7_A.
+I1021 17:51:56.209643 23183499835200 templates.py:267] Found an exact template match 6jmb_A.
+I1021 17:51:56.735496 23183499835200 templates.py:267] Found an exact template match 1itx_A.
+I1021 17:51:57.107683 23183499835200 templates.py:267] Found an exact template match 6kst_B.
+I1021 17:51:57.278563 23183499835200 templates.py:267] Found an exact template match 3b9e_A.
+I1021 17:51:57.602895 23183499835200 templates.py:267] Found an exact template match 6kxl_B.
+I1021 17:51:57.729436 23183499835200 templates.py:267] Found an exact template match 3w4r_A.
+I1021 17:51:57.983217 23183499835200 templates.py:267] Found an exact template match 5dez_A.
+I1021 17:51:58.153894 23183499835200 templates.py:267] Found an exact template match 3arv_A.
+I1021 17:51:58.335496 23183499835200 templates.py:267] Found an exact template match 3arx_A.
+I1021 17:51:58.877606 23183499835200 templates.py:267] Found an exact template match 1ehn_A.
+I1021 17:51:59.332587 23183499835200 pipeline.py:234] Uniref90 MSA size: 10000 sequences.
+I1021 17:51:59.332792 23183499835200 pipeline.py:235] BFD MSA size: 2194 sequences.
+I1021 17:51:59.332823 23183499835200 pipeline.py:236] MGnify MSA size: 501 sequences.
+I1021 17:51:59.332848 23183499835200 pipeline.py:237] Final (deduplicated) MSA size: 12392 sequences.
+I1021 17:51:59.333010 23183499835200 pipeline.py:239] Total number of templates (NB: this can include bad templates and is later filtered to top 4): 20.
+I1021 17:51:59.434571 23183499835200 run_alphafold.py:280] Running model model_1_pred_0 on rcsb_pdb_3QOK
+I1021 17:52:01.264690 23183499835200 model.py:165] Running predict with shape(feat) = {'aatype': (1, 420), 'residue_index': (1, 420), 'seq_length': (1,), 'template_aatype': (1, 4, 420), 'template_all_atom_masks': (1, 4, 420, 37), 'template_all_atom_positions': (1, 4, 420, 37, 3), 'template_sum_probs': (1, 4, 1), 'is_distillation': (1,), 'seq_mask': (1, 420), 'msa_mask': (1, 508, 420), 'msa_row_mask': (1, 508), 'random_crop_to_size_seed': (1, 2), 'template_mask': (1, 4), 'template_pseudo_beta': (1, 4, 420, 3), 'template_pseudo_beta_mask': (1, 4, 420), 'atom14_atom_exists': (1, 420, 14), 'residx_atom14_to_atom37': (1, 420, 14), 'residx_atom37_to_atom14': (1, 420, 37), 'atom37_atom_exists': (1, 420, 37), 'extra_msa': (1, 5120, 420), 'extra_msa_mask': (1, 5120, 420), 'extra_msa_row_mask': (1, 5120), 'bert_mask': (1, 508, 420), 'true_msa': (1, 508, 420), 'extra_has_deletion': (1, 5120, 420), 'extra_deletion_value': (1, 5120, 420), 'msa_feat': (1, 508, 420, 49), 'target_feat': (1, 420, 22)}
+I1021 17:52:27.811770 23183499835200 run_alphafold.py:292] Total JAX model model_1_pred_0 on rcsb_pdb_3QOK predict time (includes compilation time, see --benchmark): 26.5s
+Traceback (most recent call last):
+  File "/project/run_alphafold.py", line 585, in <module>
+    app.run(main)
+  File "/opt/conda/lib/python3.8/site-packages/absl/app.py", line 312, in run
+    _run_main(main, args)
+  File "/opt/conda/lib/python3.8/site-packages/absl/app.py", line 258, in _run_main
+    sys.exit(main(argv))
+  File "/project/run_alphafold.py", line 558, in main
+    predict_structure(
+  File "/project/run_alphafold.py", line 306, in predict_structure
+    plddt = prediction_result['plddt']
+KeyError: 'plddt'
+所有任务已提交或完成。

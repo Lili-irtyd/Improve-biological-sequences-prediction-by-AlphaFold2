@@ -1,0 +1,4 @@
+/etc/csh.cshrc: line 34: syntax error near unexpected token `('
+/etc/csh.cshrc: line 34: `set savehist = (1024 merge)'
+/var/spool/pbs/mom_priv/jobs/4185840.fe3-adm.SC: line 13: module: command not found
+/var/spool/pbs/mom_priv/jobs/4185840.fe3-adm.SC: line 47: python: command not found

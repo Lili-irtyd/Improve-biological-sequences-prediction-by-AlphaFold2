@@ -1,0 +1,6 @@
+# Ignore large dataset and feature files > 100MB
+**/*.npy
+**/*.pt
+**/*.pkl
+full_sequence_cleavage_sites/full_sequence_cleavage_sites/Picture/shap_force_plot.html
+GraphBind/Datasets/

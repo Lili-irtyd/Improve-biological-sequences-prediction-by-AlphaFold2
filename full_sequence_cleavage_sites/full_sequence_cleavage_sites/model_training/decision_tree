@@ -1,0 +1,17 @@
+digraph Tree {
+node [shape=box, style="filled", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="AF2Feature <= 103.871\nentropy = 1.0\nsamples = 21476\nvalue = [10738.0, 10738.0]\nclass = Non-Cleavage", fillcolor="#ffffff"] ;
+1 [label="AF2Feature <= -38.096\nentropy = 0.987\nsamples = 16347\nvalue = [8165.594, 10738.0]\nclass = Cleavage", fillcolor="#d0e8f9"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="entropy = 0.0\nsamples = 2352\nvalue = [1179.625, 0.0]\nclass = Non-Cleavage", fillcolor="#e58139"] ;
+1 -> 2 ;
+3 [label="AF2Feature <= 11.909\nentropy = 0.967\nsamples = 13995\nvalue = [6985.969, 10738.0]\nclass = Cleavage", fillcolor="#baddf6"] ;
+1 -> 3 ;
+4 [label="entropy = 0.0\nsamples = 1885\nvalue = [945.405, 0.0]\nclass = Non-Cleavage", fillcolor="#e58139"] ;
+3 -> 4 ;
+5 [label="entropy = 0.943\nsamples = 12110\nvalue = [6040.564, 10738.0]\nclass = Cleavage", fillcolor="#a8d4f4"] ;
+3 -> 5 ;
+6 [label="entropy = -0.0\nsamples = 5129\nvalue = [2572.406, 0.0]\nclass = Non-Cleavage", fillcolor="#e58139"] ;
+0 -> 6 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+}

@@ -1,0 +1,32 @@
+Warning: no access to tty (Inappropriate ioctl for device).
+Thus no job control in this shell.
+Job started on node: ch7
+Using device: cuda
+Loading Datasets...
+train loaded with Numres = 110303
+test loaded with Numres = 37345
+Extracting Train info...
+Reading IDs and counts from: /user1/scl1/zhiqian/GraphBind/Datasets/PRNA/PRNA_SC_dist20_PHSA2A/raw/train_data.pkl
+Extracting Test info...
+Reading IDs and counts from: /user1/scl1/zhiqian/GraphBind/Datasets/PRNA/PRNA_SC_dist20_PHSA2A/raw/test_data.pkl
+Calculating Homology (Threshold=0.4)...
+
+Protein Split Result: Easy=6, Hard=111
+Total Residues mapped: 37345
+Running Inference on Test Set...
+
+==================================================
+ >>> Evaluation Results <<<
+==================================================
+Using Best Threshold from training: 0.2800
++--------------------------+--------+--------+--------+--------+--------+
+|          Group           |  AUC   |  AUPR  |   F1   |  Sen   |  Spe   |
++--------------------------+--------+--------+--------+--------+--------+
+| Easy Set (High Homology) | 0.8834 | 0.5151 | 0.4531 | 0.7865 | 0.8155 |
++--------------------------+--------+--------+--------+--------+--------+
++-------------------------+--------+--------+--------+--------+--------+
+|          Group          |  AUC   |  AUPR  |   F1   |  Sen   |  Spe   |
++-------------------------+--------+--------+--------+--------+--------+
+| Hard Set (Low Homology) | 0.8819 | 0.3279 | 0.3873 | 0.5757 | 0.9214 |
++-------------------------+--------+--------+--------+--------+--------+
+Job finished.

@@ -1,0 +1,10 @@
+Rank 1: Feature 353 (Importance 0.2515) - BE 的第 334 个特征
+Rank 2: Feature 352 (Importance 0.2178) - BE 的第 333 个特征
+Rank 3: Feature 500 (Importance 0.2135) - BE 的第 481 个特征
+Rank 4: Feature 296 (Importance 0.2050) - BE 的第 277 个特征
+Rank 5: Feature 535 (Importance 0.2033) - BE 的第 516 个特征
+Rank 6: Feature 339 (Importance 0.2006) - BE 的第 320 个特征
+Rank 7: Feature 96 (Importance 0.1929) - BE 的第 77 个特征
+Rank 8: Feature 415 (Importance 0.1824) - BE 的第 396 个特征
+Rank 9: Feature 289 (Importance 0.1814) - BE 的第 270 个特征
+Rank 10: Feature 153 (Importance 0.1808) - BE 的第 134 个特征

@@ -1,0 +1,6 @@
+/usr/share/Modules/init/csh: eval: line 3: syntax error near unexpected token `alias'
+/usr/share/Modules/init/csh: eval: line 3: `if ( $?histchars && $?prompt ) alias module 'set _histchars = $histchars; unset histchars; set _prompt=$prompt:q; set prompt=""; eval "`/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl csh \!*:q`"; set _exit="$status"; set histchars = $_histchars; unset _histchars; set prompt=$_prompt:q; unset _prompt; test 0 = $_exit' ;'
+/usr/share/Modules/init/csh: line 15: syntax error near unexpected token `alias'
+/usr/share/Modules/init/csh: line 15: `      if ( $?histchars && $?prompt ) alias module 'set _histchars = $histchars; unset histchars; set _prompt=$prompt:q; set prompt=""; eval `/usr/share/Modules/libexec/modulecmd-compat csh \!*`; set _exit="$status";  set histchars = $_histchars; unset _histchars; set prompt=$_prompt:q; unset _prompt; test 0 = $_exit' ;'
+/var/spool/pbs/mom_priv/jobs/4185877.fe3-adm.SC: line 13: module: command not found
+/var/spool/pbs/mom_priv/jobs/4185877.fe3-adm.SC: line 47: python: command not found

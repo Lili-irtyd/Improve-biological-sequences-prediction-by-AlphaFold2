@@ -1,0 +1,10 @@
+Rank 1: Feature 2472 (Importance 0.0007) - X_Features 的第 193 个特征
+Rank 2: Feature 3101 (Importance 0.0007) - X_Features 的第 822 个特征
+Rank 3: Feature 6512 (Importance 0.0006) - X_Features 的第 4233 个特征
+Rank 4: Feature 6190 (Importance 0.0006) - X_Features 的第 3911 个特征
+Rank 5: Feature 12659 (Importance 0.0006) - X_Features 的第 10380 个特征
+Rank 6: Feature 6179 (Importance 0.0006) - X_Features 的第 3900 个特征
+Rank 7: Feature 4625 (Importance 0.0006) - X_Features 的第 2346 个特征
+Rank 8: Feature 2743 (Importance 0.0006) - X_Features 的第 464 个特征
+Rank 9: Feature 3822 (Importance 0.0006) - X_Features 的第 1543 个特征
+Rank 10: Feature 2313 (Importance 0.0006) - X_Features 的第 34 个特征

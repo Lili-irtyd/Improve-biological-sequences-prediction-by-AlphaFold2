@@ -1,0 +1,33 @@
+Warning: no access to tty (Inappropriate ioctl for device).
+Thus no job control in this shell.
+Job started on node: ch8
+请选择特征组合模式:
+1: 仅基础特征 (AAC+BE+CKSAAP+PSSM)
+2: 基础特征 + AF2特征
+3: 仅 AF2特征
+当前选定模式: af2
+正样本数: 82, 负样本数: 26762
+正在使用完整数据集 (不进行欠采样)...
+正在加载 AlphaFold2 特征...
+特征矩阵形状: (26844, 11520)
+标签形状: (26844,)
+正在进行超参数调优...
+Fitting 5 folds for each of 90 candidates, totalling 450 fits
+Best Parameters: {'criterion': 'entropy', 'max_depth': 3, 'min_samples_leaf': 1, 'min_samples_split': 2}
+正在评估模型...
+
+==== 5折交叉验证结果 ====
+Metric         Test Mean      
+==============================
+AUC            0.5839
+AUPR           0.0037
+F1-score       0.0079
+Accuracy       0.4733
+==============================
+决策树选择了 3 个特征，来源如下:
+- AF2Feature: 3 个
+正在绘制决策树...
+决策树 PDF 已生成: decision_tree.pdf
+训练集实际样本数: 21475
+决策树根节点样本数: 21476
+Job finished.
